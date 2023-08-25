@@ -7,7 +7,6 @@ public class Forces
     //All forces are added here, though they may be calculated elsewhere
     BirdController bird;
 
-    Launch launch;
     Flap flap;
     Lift lift;
     Drag drag;
@@ -16,7 +15,6 @@ public class Forces
     public Forces(BirdController _bird)
     {
         bird = _bird;
-        launch = new Launch(_bird, this);
         flap = new Flap(_bird, this);
         lift = new Lift(_bird, this);
         drag = new Drag(_bird, this);
@@ -28,18 +26,13 @@ public class Forces
     public void FixedUpdate(float airSpeed)
     {
         if(bird.state.flapping) Flap();
-        if (bird.state == bird.refHolder.launching) Launch();
+        if (bird.state == bird.refHolder.launching) return;
         //flight metrics is used in all of these, provided by state
         Lift(airSpeed);         
         Drag(airSpeed);
         Gravity();
     }
 
-    public void Launch()
-    {
-        Vector3 force = launch.Force();
-        bird.refHolder.rb.AddForce(launch.Force());
-    }
     public void Flap()
     {
         bird.refHolder.rb.AddForce(flap.Force());

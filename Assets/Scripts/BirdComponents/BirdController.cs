@@ -14,7 +14,6 @@ public class BirdController : MonoBehaviour
     public Forces forces;
 
     //Data
-    public BirdData data;
     public FlightInfo flightInfo;
 
     //State

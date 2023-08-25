@@ -17,7 +17,7 @@ public class AnimationControl
 
     public void Launch()
     {
-        anim.Play("Launch");
+        anim.Play("CompleteLaunch");
         //when finished, anim should auto move the head
     }
 

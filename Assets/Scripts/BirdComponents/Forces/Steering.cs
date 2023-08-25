@@ -30,12 +30,16 @@ public class Steering
     public void NoseDown(float powerFactor = 1f)
     {
         Vector3 pitchAxis = bird.transform.right;
-        bird.refHolder.rb.AddTorque(pitchAxis * bird.data.steeringPower * powerFactor * bird.flightInfo.airSpeed * bird.flightInfo.airSpeed);
+        float airSpd = Mathf.Clamp(bird.flightInfo.airSpeed, bird.state.flightMetrics.minAirSpeed, bird.state.flightMetrics.maxAirSpeed);
+        Vector3 torque = pitchAxis * bird.state.flightMetrics.steeringPower * powerFactor * airSpd * airSpd;
+        bird.refHolder.rb.AddTorque(torque);
     }
 
     public void NoseUp(float powerFactor = 1f)
     {
         Vector3 pitchAxis = bird.transform.right;
-        bird.refHolder.rb.AddTorque(-pitchAxis * bird.data.steeringPower * powerFactor * bird.flightInfo.airSpeed * bird.flightInfo.airSpeed);
+        float airSpd = Mathf.Clamp(bird.flightInfo.airSpeed, bird.state.flightMetrics.minAirSpeed, bird.state.flightMetrics.maxAirSpeed);
+        Vector3 torque = -pitchAxis * bird.state.flightMetrics.steeringPower * powerFactor * airSpd * airSpd;
+        bird.refHolder.rb.AddTorque(torque);
     }
 }

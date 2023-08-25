@@ -35,7 +35,8 @@ public class Drag
         float stallAngle = fm.stallAngleOfAttack;
         if(Mathf.Abs(angleOfAttack) > aoaStall)
         {
-            if (angleOfAttack < 0) angleOfAttack += 180f;
+            angleOfAttack = Mathf.Abs(angleOfAttack);
+            //if (angleOfAttack < 0) angleOfAttack += 180f;
             if (angleOfAttack > 89) angleOfAttack = 89f;
             //non laminar - upside down parabolic
             float angleCentredOnNinety = angleOfAttack - 90f;

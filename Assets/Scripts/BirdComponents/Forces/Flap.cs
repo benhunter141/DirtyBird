@@ -33,7 +33,7 @@ public class Flap
         //force should peak like first half of a sin wave. force is zero at progress = 0,1. force is max at progress = 0.5
         float progressFactor = Mathf.Sin(progress * Mathf.PI);
 
-        Vector3 force = direction * bird.data.flapForce * progressFactor;
+        Vector3 force = direction * bird.state.flightMetrics.flapForce * progressFactor;
         forces.UpdateForceGizmo(bird.refHolder.flapForceGizmo, force);
 
         return force;
