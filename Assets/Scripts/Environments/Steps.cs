@@ -16,7 +16,7 @@ public class Steps : Environment
 
     public override Material GetMaterial() => material;
 
-    protected override Mesh MakeMesh()
+    protected override Mesh MakeMesh() //evenly spaced landings
     {
         Mesh mesh = new Mesh();
         //verts
@@ -66,4 +66,12 @@ public class Steps : Environment
     public override Vector3 UpAt(Vector3 position, Transform terrain) => Vector3.up;
     protected override Vector3 HorizonAt(Vector3 position, Vector3 direction, Transform terrain) => Vector3.forward;
 
+    public override float GroundPositionAt(float z)
+    {
+        //Rough height
+        float y = Slope() * z;
+        return y;
+    }
+
+    float Slope() => -stepHeight / (landingLength + stepLength);
 }

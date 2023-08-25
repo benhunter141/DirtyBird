@@ -13,11 +13,11 @@ public class CameraView : ScriptableObject
     {
         if(relativeDisplacement)
         {
-            return bird.TransformPoint(displacement);
+            return bird.TransformPoint(displacement + displacement.normalized * ServiceLocator.Instance.inputHandler.ZoomLevel);
         }
         else
         {
-            return bird.position + displacement; //world pos
+            return bird.position + displacement + displacement.normalized * ServiceLocator.Instance.inputHandler.ZoomLevel; //world pos
         }
     }
 

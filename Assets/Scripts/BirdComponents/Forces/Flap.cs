@@ -28,15 +28,12 @@ public class Flap
         float progress = bird.state.timer / bird.state.duration;
         
         //force direction depends on orientation of the bird
-        Vector3 up = bird.transform.up;
-        Vector3 forward = bird.transform.forward;
-        Vector3 direction = Vector3.Slerp(up, forward, bird.data.flapAngle);
+        Vector3 direction = bird.transform.forward;
         
         //force should peak like first half of a sin wave. force is zero at progress = 0,1. force is max at progress = 0.5
         float progressFactor = Mathf.Sin(progress * Mathf.PI);
 
         Vector3 force = direction * bird.data.flapForce * progressFactor;
-        Debug.Log($"progress:{progress}");
         forces.UpdateForceGizmo(bird.refHolder.flapForceGizmo, force);
 
         return force;

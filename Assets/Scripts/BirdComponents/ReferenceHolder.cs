@@ -6,6 +6,5 @@ public class ReferenceHolder : MonoBehaviour
 {
     public Rigidbody rb;
     public Transform flapForceGizmo, liftForceGizmo, dragForceGizmo, gravityForceGizmo;
-    public BirdState standing, launching, gliding, flapping, subsequentFlapping;
-
+    public BirdState standing, launching, gliding, flapping;
 }

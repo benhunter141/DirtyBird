@@ -5,16 +5,16 @@ using UnityEngine;
 public class InputHandler : MonoBehaviour
 {
     public bool FlapDesire { get; private set; }
-
     public Vector2 InputAxis { get; private set; }
+    public float ZoomLevel { get; private set; }
     void Update()
     {
         ReadInputs();
         //better to send inputs than to take them... Current plan: states look here for current inputs (bad?)
     }
-
     public void ReadInputs()
     {
+        //Flap
         if (Input.GetKeyDown(KeyCode.Space))
         {
             FlapDesire = true;
@@ -23,6 +23,8 @@ public class InputHandler : MonoBehaviour
         {
             FlapDesire = false;
         }
+        
+        //Tilt
         if (Input.GetKey(KeyCode.A))
         {
             InputAxis = Vector2.left;
@@ -35,5 +37,9 @@ public class InputHandler : MonoBehaviour
         {
             InputAxis = Vector2.zero;
         }
+
+        //Zoom
+        ZoomLevel += Input.mouseScrollDelta.y;
+        ZoomLevel = Mathf.Clamp(ZoomLevel, 0f, 30f);
     }
 }

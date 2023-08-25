@@ -2,24 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Cinemachine;
 
 public class CameraController : MonoBehaviour
 {
-    new public Transform camera;
-    public CameraView sideView;
-    public float smoothRotFactor, smoothPosFactor;
+    [SerializeField]
+    Transform bottomFrame, topFrame;
+    [SerializeField]
+    Camera mainCam;
 
-    void Update()
+    private void LateUpdate()
     {
-        Transform bird = ServiceLocator.Instance.birdController.transform;
+        float sideViewDistance = 20f;
+        float leadDistance = 20f;
+        float topClearance = 10f;
+        float botClearance = 10f;
+        float camHeightLerp = 0.8f; //bias to top position
 
-        Vector3 idealPosition = sideView.IdealCameraPosition(bird);
-        Vector3 position = Vector3.Lerp(camera.position, idealPosition, smoothPosFactor);
-        camera.position = position;
+        //update bot,top positions
+        float botX = sideViewDistance;
+        float botY = ServiceLocator.Instance.environmentManager.GroundPositionAt(ServiceLocator.Instance.birdController.transform.position.z) - botClearance;
+        float botZ = ServiceLocator.Instance.birdController.transform.position.z + leadDistance;
 
-        Quaternion idealRot = sideView.IdealCameraRotation(bird, camera);
-        Debug.Log($"idealRot: " + idealRot);
-        Quaternion rotation = Quaternion.Lerp(camera.rotation, idealRot, smoothRotFactor);
-        camera.rotation = rotation;
+        bottomFrame.position = new Vector3(botX, botY, botZ);
+
+        float topX = sideViewDistance;
+        float topY = ServiceLocator.Instance.birdController.transform.position.y + topClearance;
+        float topZ = ServiceLocator.Instance.birdController.transform.position.z + leadDistance;
+
+        topFrame.position = new Vector3(topX, topY, topZ);
+
+        Vector3 lerpedPosition = Vector3.Lerp(bottomFrame.position, topFrame.position, camHeightLerp);
+        float vertViewDistance = topY - botY;
+
+        mainCam.transform.position = lerpedPosition + new Vector3(10f,0,0);
+        mainCam.orthographicSize = vertViewDistance / 2;
     }
 }

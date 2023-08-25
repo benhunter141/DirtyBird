@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: FlapState
   m_EditorClassIdentifier: 
   flightMetrics: {fileID: 11400000, guid: e87cf553351bac8489bbf0401388711c, type: 2}
-  flapping: 0
+  flapping: 1
   physicsActive: 1
   timer: 1.0199996
   duration: 1
   gliding: {fileID: 11400000, guid: 9d6d31ff0fe36f14d8c12828be87c9f7, type: 2}
-  subsequentFlaps: {fileID: 11400000, guid: 5dad8d5aa7915f24fa613da68fbc3267, type: 2}

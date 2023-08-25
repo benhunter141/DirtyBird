@@ -18,7 +18,7 @@ public abstract class Environment : ScriptableObject, IHasMaterial
         obj.name = this.name;
         return obj;
     }
-
+    public abstract float GroundPositionAt(float z);
     public abstract float Elevation(Vector3 position, Transform terrain);
     public abstract Vector3 UpAt(Vector3 position, Transform terrain);
     protected abstract Vector3 HorizonAt(Vector3 position, Vector3 direction, Transform terrain);

@@ -10,6 +10,12 @@ public class Plane : Environment
 
     public override float Elevation(Vector3 position, Transform terrain) => position.y;
     public override Material GetMaterial() => ground;
+
+    public override float GroundPositionAt(float z)
+    {
+        return 0;
+    }
+
     public override Vector3 UpAt(Vector3 position, Transform terrain) => Vector3.up;
     protected override Vector3 HorizonAt(Vector3 position, Vector3 direction, Transform terrain)
     {

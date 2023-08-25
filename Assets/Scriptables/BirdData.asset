@@ -19,4 +19,4 @@ MonoBehaviour:
   launchForce: 50
   launchDuration: 0.4
   launchTorquePower: 10
-  steeringPower: 0.2
+  steeringPower: 0.004
