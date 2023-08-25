@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 427a0efaf13006948bf6c7d5dae01b12, type: 3}
+  m_Name: GlideState
+  m_EditorClassIdentifier: 
+  flightMetrics: {fileID: 11400000, guid: e87cf553351bac8489bbf0401388711c, type: 2}
+  flapping: 0
+  physicsActive: 1
+  timer: 1.5399991
+  duration: 1
+  singleFlap: {fileID: 11400000, guid: 5308613ba9d538d4ea03a69499fcb05c, type: 2}
