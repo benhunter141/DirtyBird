@@ -28,6 +28,7 @@ public class BirdController : MonoBehaviour
         flightInfo = new FlightInfo(this);
         steering = new Steering(this);
         animationControl = new AnimationControl(this, GetComponent<Animator>());
+        state.EnterState(this);
     }
 
     private void FixedUpdate()
