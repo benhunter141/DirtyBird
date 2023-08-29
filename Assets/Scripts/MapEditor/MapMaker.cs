@@ -22,6 +22,21 @@ public class MapMaker : MonoBehaviour
             Debug.Log($"Tri index {i}: {filter.mesh.triangles[i]}");
         }
     }
+    
+    public void ClearToAirFill()
+    {
+        map.ClearMapAndFillWithAir();
+    }
+
+    public void WriteToTextFile()
+    {
+        map.WriteMapDataToTextFile();
+    }
+
+    public void ReadFromTextFile()
+    {
+        map.ReadMapDataFromTextFile();
+    }
 
     private void LateUpdate()
     {
@@ -35,7 +50,6 @@ public class MapMaker : MonoBehaviour
         renderer = GetComponent<MeshRenderer>();
         filter = GetComponent<MeshFilter>();
         map.ClearMapAndFillWithAir();
-        map.WriteMapDataToTextFile();
     }
 
     void Update()
@@ -46,7 +60,7 @@ public class MapMaker : MonoBehaviour
             UpdatePositionOfCursor(mouseWorldPos);
             if (Input.GetMouseButton(0))
             {
-                Debug.Log($"mouse clicked at world pos: {mouseWorldPos.x}, {mouseWorldPos.y}, {mouseWorldPos.z}");
+                //Debug.Log($"mouse clicked at world pos: {mouseWorldPos.x}, {mouseWorldPos.y}, {mouseWorldPos.z}");
                 CreateLandChunk(mouseWorldPos);
             }
         }
@@ -72,13 +86,15 @@ public class MapMaker : MonoBehaviour
     void DestroyLandChunk(Vector3 worldPosition)
     {
         Vector2Int coords = map.GetCoords(worldPosition);
-        Debug.Log($"coords:{coords.x}, {coords.y}");
+        //Debug.Log($"coords:{coords.x}, {coords.y}");
+        if (map.CoordsOutOfGrid(coords)) return;
         map.ChangeVoxelTo(Voxel.Air, coords);
     }
     void CreateLandChunk(Vector3 worldPosition)
     {
         Vector2Int coords = map.GetCoords(worldPosition);
-        Debug.Log($"coords:{coords.x}, {coords.y}");
+        //Debug.Log($"coords:{coords.x}, {coords.y}");
+        if (map.CoordsOutOfGrid(coords)) return;
         map.ChangeVoxelTo(Voxel.Land, coords);
     }
 

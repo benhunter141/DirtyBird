@@ -18,32 +18,61 @@ public class VoxelMap : ScriptableObject
     public List<List<Voxel>> map;
 
 
+    public void ReadMapDataFromTextFile()
+    {
+        StreamReader sr = new StreamReader(path);
+        var lines = new List<string>();
+        while(!sr.EndOfStream)
+        {
+            var line = sr.ReadLine();
+            lines.Add(line);
+        }
+        lines.Reverse();
 
+        for(int j = 0; j < lines.Count; j++)
+        {
+            for(int i = 0; i < lines[j].Length; i++)
+            {
+                char c = lines[j][i];
+                if (c == 'A')
+                {
+                    //Debug.Log("A found");
+                    map[j][i] = Voxel.Air;
+                }
+                else if (c == 'L')
+                {
+                    //Debug.Log("L found");
+                    map[j][i] = Voxel.Land;
+                }
+            }
+        }
+        hasChanged = true;
+    }
     public void WriteMapDataToTextFile()
     {
         File.WriteAllText(path, string.Empty);
         string mapData = string.Empty;
-        for (int i = 0; i < width; i++)
+        for (int j = height - 1; j >= 0; j--)
         {
-            for (int j = 0; j < height; j++)
+            for (int i = 0; i < width; i++)
             {
-                Voxel v = map[i][j];
+                Voxel v = map[j][i];
                 if (v == Voxel.Land)
                 {
                     mapData += "L";
                 }
                 if (v == Voxel.Air)
                 {
-                
                     mapData += "A";
                 }
             }
-            if (i == width - 1) continue;
+            if (j == 0) continue;
             mapData += "\n";
         }
         File.AppendAllText(path, mapData);
         //Re-Import
         AssetDatabase.ImportAsset(path);
+        Debug.Log("Written to txt");
     }
     public Mesh MakeMesh()
     {
@@ -54,7 +83,7 @@ public class VoxelMap : ScriptableObject
         {
             for(int j = 0; j < height; j++)
             {
-                Voxel v = map[i][j];
+                Voxel v = map[j][i];
                 if (v != Voxel.Land) continue;
                 //Add Facade
                 Vector3 voxelCentre = new Vector3(i * voxelSize, j * voxelSize);
@@ -99,13 +128,13 @@ public class VoxelMap : ScriptableObject
     public void ClearMapAndFillWithAir()
     {
         map = new List<List<Voxel>>();
-        for(int i = 0; i < width; i++)
+        for(int j = 0; j < height; j++)
         {
-            var col = new List<Voxel>();
-            map.Add(col);
-            for (int j = 0; j < height; j++)
+            var row = new List<Voxel>();
+            map.Add(row);
+            for (int i = 0; i < width; i++)
             {
-                col.Add(Voxel.Air);
+                row.Add(Voxel.Air);
             }
         }
         hasChanged = true;
@@ -113,8 +142,8 @@ public class VoxelMap : ScriptableObject
 
     public void ChangeVoxelTo(Voxel v, Vector2Int coords)
     {
-        if (map[coords.x][coords.y] == v) return;
-        map[coords.x][coords.y] = v;
+        if (map[coords.y][coords.x] == v) return;
+        map[coords.y][coords.x] = v;
         hasChanged = true;
     }
 
@@ -123,9 +152,16 @@ public class VoxelMap : ScriptableObject
         if (Mathf.Abs(pos.z) > 0.01f) throw new System.Exception("Z coordinate should be zero");
         int xCoord = (int)Mathf.Round(pos.x / voxelSize);
         int yCoord = (int)Mathf.Round(pos.y / voxelSize);
-        if (xCoord < 0 || yCoord < 0) throw new System.Exception("Negative coord, out of grid");
-        if (xCoord >= width || yCoord >= height) throw new System.Exception("coord too high, out of grid");
+        //if out of grid, we want methods calling this to know that and to do nothing. 
+
 
         return new Vector2Int(xCoord, yCoord);
+    }
+
+    public bool CoordsOutOfGrid(Vector2Int coords)
+    {
+        if (coords.x < 0 || coords.y < 0) return true;
+        if (coords.x >= width || coords.y >= height) return true;
+        return false;
     }
 }
