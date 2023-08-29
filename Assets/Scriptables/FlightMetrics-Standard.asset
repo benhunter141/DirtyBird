@@ -22,7 +22,7 @@ MonoBehaviour:
   minAngleOfAttack: -25
   maxAngleOfAttack: 25
   stallAngleOfAttack: 35
-  minAirSpeed: 1
+  minAirSpeed: 2
   maxAirSpeed: 100
   flapForce: 22
   flapAngle: 0.2
@@ -31,4 +31,4 @@ MonoBehaviour:
   launchForce: 50
   launchDuration: 0.4
   launchTorquePower: 50
-  steeringPower: 0.01
+  steeringPower: 0.02

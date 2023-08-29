@@ -40,11 +40,4 @@ public abstract class Environment : ScriptableObject, IHasMaterial
     {
         throw new System.NotImplementedException();
     }
-
-    //wtf is cylinderAxis for?? pitch calculation (which should be done here anyway... or should it...)
-
-    //public float Elevation(Vector3 point) => Vector3.Distance(cylinder.position, point) + cylinder.position.y;
-    //public Vector3 UpAt(Vector3 point) => (point - cylinder.position).normalized;
-    //public Vector3 HorizonAt(Vector3 point) => Vector3.Cross(UpAt(point), cylinder.up);
-    //public Vector3 CylinderAxis() => cylinder.up;
 }

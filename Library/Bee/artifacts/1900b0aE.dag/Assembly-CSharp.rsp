@@ -363,6 +363,7 @@
 "Assets/DoTween/DOTween_1_2_745/DOTween/Modules/DOTweenModuleUI.cs"
 "Assets/DoTween/DOTween_1_2_745/DOTween/Modules/DOTweenModuleUnityVersion.cs"
 "Assets/DoTween/DOTween_1_2_745/DOTween/Modules/DOTweenModuleUtils.cs"
+"Assets/MenuManager.cs"
 "Assets/Scripts/BirdComponents/AnimationControl.cs"
 "Assets/Scripts/BirdComponents/BirdController.cs"
 "Assets/Scripts/BirdComponents/Data/FlightInfo.cs"
