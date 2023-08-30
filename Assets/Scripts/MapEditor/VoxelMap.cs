@@ -9,6 +9,7 @@ public class VoxelMap : ScriptableObject
 {
     public int width, height;
     public float voxelSize;
+    public float depth;
     public Vector2Int startPosition;
     public Vector2Int endPosition;
     public string path;
@@ -92,11 +93,17 @@ public class VoxelMap : ScriptableObject
                 Vector3 botRight = voxelCentre + new Vector3(halfSize, -halfSize);
                 Vector3 topRight = voxelCentre + new Vector3(halfSize, halfSize);
                 Vector3 topLeft = voxelCentre + new Vector3(-halfSize, halfSize);
+                Vector3 topLeftDeep = topLeft + new Vector3(0, 0, depth);
+                Vector3 topRightDeep = topRight + new Vector3(0, 0, depth);
+                Vector3 botRightDeep = botRight + new Vector3(0, 0, depth);
                 int triIndex = verts.Count;
                 verts.Add(botLeft);
                 verts.Add(botRight);
                 verts.Add(topRight);
                 verts.Add(topLeft);
+                verts.Add(topLeftDeep);
+                verts.Add(topRightDeep);
+                verts.Add(botRightDeep);
                 tris.Add(triIndex);
                 tris.Add(triIndex + 2);
                 tris.Add(triIndex + 1);
@@ -106,23 +113,34 @@ public class VoxelMap : ScriptableObject
 
                 if (NeedsTopFace(i,j))
                 {
-                    //Add Top
-                    //Debug.Log($"Add top at {i},{j}");
+                    tris.Add(triIndex + 3);
+                    tris.Add(triIndex + 5);
+                    tris.Add(triIndex + 2);
+                    tris.Add(triIndex + 3);
+                    tris.Add(triIndex + 4);
+                    tris.Add(triIndex + 5);
                 }
                 if (NeedsRightFace(i,j))
                 {
-                    //Add Right
-                    //Debug.Log($"Add right at {i},{j}");
+                    tris.Add(triIndex + 1);
+                    tris.Add(triIndex + 2);
+                    tris.Add(triIndex + 5);
+                    tris.Add(triIndex + 1);
+                    tris.Add(triIndex + 5);
+                    tris.Add(triIndex + 6);
                 }
             }
         }
         mesh.vertices = verts.ToArray();
         mesh.triangles = tris.ToArray();
+        mesh.RecalculateTangents();
+        mesh.RecalculateNormals();
+        mesh.RecalculateBounds();
 
         return mesh;
 
-        bool NeedsTopFace(int x, int y) => y == height - 1 || map[x][y + 1] != Voxel.Land;
-        bool NeedsRightFace(int x, int y) => x == width - 1 || map[x + 1][y] != Voxel.Land;
+        bool NeedsTopFace(int x, int y) => y == height - 1 || map[y+1][x] != Voxel.Land;
+        bool NeedsRightFace(int x, int y) => x == width - 1 || map[y][x+1] != Voxel.Land;
     }
 
     public void ClearMapAndFillWithAir()
